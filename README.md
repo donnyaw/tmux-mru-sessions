@@ -1,4 +1,4 @@
-# toggle-switch-session
+# tmux-mru-sessions
 
 A small TPM-compatible tmux plugin that cycles through the most recently used sessions.
 
@@ -20,7 +20,7 @@ By default, tmux `prefix + L` runs `switch-client -l`, which only toggles betwee
 Add this plugin to `~/.tmux.conf`:
 
 ```tmux
-set -g @plugin 'donnyaw/toogle-switch-session-plugin'
+set -g @plugin 'donnyaw/tmux-mru-sessions'
 ```
 
 Then press `prefix + I` to install with TPM.
@@ -30,26 +30,26 @@ Then press `prefix + I` to install with TPM.
 For local development or direct use:
 
 ```tmux
-set -g @plugin '~/.tmux/plugins/toogle-switch-session-plugin'
+set -g @plugin '~/.tmux/plugins/tmux-mru-sessions'
 ```
 
 Or source the plugin directly:
 
 ```tmux
-run-shell /path/to/toogle-switch-session-plugin/toggle-switch-session.tmux
+run-shell /path/to/tmux-mru-sessions/tmux-mru-sessions.tmux
 ```
 
 ## Configuration
 
 ```tmux
-set -g @toggle-switch-session-key 'L'
-set -g @toggle-switch-session-depth '3'
-set -g @toggle-switch-session-storage '#{home}/.local/share/tmux/toggle-switch-session/history'
+set -g @mru-sessions-key 'L'
+set -g @mru-sessions-depth '3'
+set -g @mru-sessions-storage '#{home}/.local/share/tmux/mru-sessions/history'
 ```
 
 ## Behavior
 
-With `@toggle-switch-session-depth` set to `3`, assume your MRU ring is:
+With `@mru-sessions-depth` set to `3`, assume your MRU ring is:
 
 ```text
 S1, S2, S3
@@ -85,5 +85,5 @@ Manual session switches refresh the MRU ring automatically through tmux's `after
 This plugin binds `prefix + L` by default. If you want to keep native tmux behavior, choose another key:
 
 ```tmux
-set -g @toggle-switch-session-key 'B'
+set -g @mru-sessions-key 'B'
 ```

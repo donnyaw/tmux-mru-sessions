@@ -15,7 +15,7 @@ get_tmux_option() {
   fi
 }
 
-key="$(get_tmux_option '@toggle-switch-session-key' 'L')"
+key="$(get_tmux_option '@mru-sessions-key' 'L')"
 
 tmux set-hook -g after-switch-client "run-shell -b '$CURRENT_DIR/scripts/record_session.sh \"#{session_id}\"'"
 tmux bind-key "$key" run-shell -b "$CURRENT_DIR/scripts/switch_session.sh"
