@@ -158,7 +158,7 @@ Default configuration:
 set -g @mru-sessions-key 'L'
 set -g @mru-sessions-root-key 'M-L'
 set -g @mru-sessions-depth '3'
-set -g @mru-sessions-storage '#{home}/.local/share/tmux/mru-sessions/history'
+set -g @mru-sessions-storage '#{E:HOME}/.local/share/tmux/mru-sessions/history'
 ```
 
 Configuration options:
@@ -168,7 +168,7 @@ Configuration options:
 | `@mru-sessions-key` | `L` | Prefix key used to cycle MRU sessions. `L` means `prefix + L`. |
 | `@mru-sessions-root-key` | `M-L` | No-prefix fast key used to cycle MRU sessions. `M-L` means `Alt+Shift+L`. Use an empty string to disable it. Multiple keys may be separated by spaces. |
 | `@mru-sessions-depth` | `3` | Number of sessions to remember and cycle through. Minimum effective value is `2`. |
-| `@mru-sessions-storage` | `#{home}/.local/share/tmux/mru-sessions/history` | File path used to store the MRU session ring. |
+| `@mru-sessions-storage` | `#{E:HOME}/.local/share/tmux/mru-sessions/history` | File path used to store the MRU session ring. |
 
 Example: remember 5 sessions instead of 3:
 
