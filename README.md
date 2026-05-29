@@ -40,7 +40,7 @@ History depth is how many sessions the plugin remembers. The default is `3`. You
 
 **Hook**
 
-A tmux hook is an automatic action that runs after a tmux event. This plugin uses the `after-switch-client` hook to update the MRU ring whenever you switch sessions.
+A tmux hook is an automatic action that runs after a tmux event. This plugin uses the `client-session-changed` hook to update the MRU ring whenever you switch sessions.
 
 **Storage File**
 
@@ -225,7 +225,7 @@ switch to S1
 ring becomes S1, S2, S3
 ```
 
-Manual session switches refresh the MRU ring automatically through tmux's `after-switch-client` hook.
+Manual session switches refresh the MRU ring automatically through tmux's `client-session-changed` hook.
 
 ## Usage Guide
 
