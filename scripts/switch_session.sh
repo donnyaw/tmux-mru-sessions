@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 current="$(current_session_id)"
 if ! session_exists "$current"; then
-  tmux display-message 'toggle-switch-session: no current session'
+  tmux display-message 'tmux-mru-sessions: no current session'
   exit 0
 fi
 
@@ -27,7 +27,7 @@ if [ "${#history[@]}" -eq 0 ] || [ "${history[0]}" != "$current" ]; then
 fi
 
 if [ "${#history[@]}" -lt 2 ]; then
-  tmux display-message 'toggle-switch-session: no previous session in history'
+  tmux display-message 'tmux-mru-sessions: no previous session in history'
   printf '%s\n' "${history[@]}" | write_history
   exit 0
 fi
@@ -35,7 +35,7 @@ fi
 target="${history[1]}"
 
 if ! session_exists "$target"; then
-  tmux display-message 'toggle-switch-session: target session no longer exists'
+  tmux display-message 'tmux-mru-sessions: target session no longer exists'
   printf '%s\n' "${history[@]}" | write_history
   exit 0
 fi
@@ -50,4 +50,4 @@ printf '%s\n' "${rotated[@]}" | write_history
 
 target_name="$(display_session_name "$target")"
 tmux switch-client -t "$target"
-tmux display-message "toggle-switch-session: switched to $target_name"
+tmux display-message "tmux-mru-sessions: switched to $target_name"

@@ -17,7 +17,7 @@ plugin_option() {
 
 history_depth() {
   local depth
-  depth="$(plugin_option '@toggle-switch-session-depth' '3')"
+  depth="$(plugin_option '@mru-sessions-depth' '3')"
 
   case "$depth" in
     ''|*[!0-9]*) depth=3 ;;
@@ -32,11 +32,11 @@ history_depth() {
 
 history_file() {
   local configured expanded
-  configured="$(plugin_option '@toggle-switch-session-storage' '#{home}/.local/share/tmux/toggle-switch-session/history')"
+  configured="$(plugin_option '@mru-sessions-storage' '#{home}/.local/share/tmux/mru-sessions/history')"
   expanded="$(tmux display-message -p "$configured" 2>/dev/null || true)"
 
   if [ -z "$expanded" ]; then
-    expanded="$HOME/.local/share/tmux/toggle-switch-session/history"
+    expanded="$HOME/.local/share/tmux/mru-sessions/history"
   fi
 
   case "$expanded" in
