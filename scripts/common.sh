@@ -31,16 +31,17 @@ history_depth() {
 }
 
 history_file() {
-  local configured expanded
-  configured="$(plugin_option '@mru-sessions-storage' '#{home}/.local/share/tmux/mru-sessions/history')"
+  local configured expanded home_dir
+  configured="$(plugin_option '@mru-sessions-storage' '#{E:HOME}/.local/share/tmux/mru-sessions/history')"
   expanded="$(tmux display-message -p "$configured" 2>/dev/null || true)"
-
-  if [ -z "$expanded" ]; then
-    expanded="$HOME/.local/share/tmux/mru-sessions/history"
-  fi
+  home_dir="${HOME:-$(tmux show-environment -gqv HOME 2>/dev/null || true)}"
 
   case "$expanded" in
-    '~/'*) expanded="$HOME/${expanded#~/}" ;;
+    ''|/.local/*) expanded="$home_dir/.local/share/tmux/mru-sessions/history" ;;
+  esac
+
+  case "$expanded" in
+    '~/'*) expanded="$home_dir/${expanded#~/}" ;;
   esac
 
   printf '%s' "$expanded"
