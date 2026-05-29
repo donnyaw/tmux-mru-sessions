@@ -61,28 +61,92 @@ A tmux session ID is an internal stable identifier such as `$1` or `$2`. This pl
 
 ## Installation
 
-### TPM
+### Install With TPM
 
-Add this plugin to `~/.tmux.conf`:
+Use this method if you already use [TPM](https://github.com/tmux-plugins/tpm), the Tmux Plugin Manager.
+
+Step 1: Add the plugin to `~/.tmux.conf`.
+
 
 ```tmux
 set -g @plugin 'donnyaw/tmux-mru-sessions'
 ```
 
-Then press `prefix + I` to install with TPM.
+Step 2: Reload your tmux config.
 
-### Local Path
+From inside tmux, run:
 
-For local development or direct use:
+```tmux
+prefix + :
+source-file ~/.tmux.conf
+```
+
+Or from a normal shell:
+
+```sh
+tmux source-file ~/.tmux.conf
+```
+
+Step 3: Install the plugin with TPM.
+
+From inside tmux, press:
+
+```text
+prefix + I
+```
+
+TPM should clone the plugin and load it automatically.
+
+### Install From Local Path
+
+Use this method if you cloned the repository yourself.
+
+Step 1: Clone the repository.
+
+```sh
+git clone https://github.com/donnyaw/tmux-mru-sessions ~/.tmux/plugins/tmux-mru-sessions
+```
+
+Step 2: Add the local plugin path to `~/.tmux.conf`.
+
 
 ```tmux
 set -g @plugin '~/.tmux/plugins/tmux-mru-sessions'
 ```
 
-Or source the plugin directly:
+Step 3: Reload tmux and install with TPM:
+
+```sh
+tmux source-file ~/.tmux.conf
+```
+
+Then press:
+
+```text
+prefix + I
+```
+
+### Install Without TPM
+
+Use this method if you do not use TPM.
+
+Step 1: Clone the repository.
+
+```sh
+git clone https://github.com/donnyaw/tmux-mru-sessions ~/.tmux/plugins/tmux-mru-sessions
+```
+
+Step 2: Add this line to `~/.tmux.conf`.
+
 
 ```tmux
-run-shell /path/to/tmux-mru-sessions/tmux-mru-sessions.tmux
+run-shell ~/.tmux/plugins/tmux-mru-sessions/tmux-mru-sessions.tmux
+```
+
+Step 3: Reload tmux.
+
+```sh
+tmux source-file ~/.tmux.conf
 ```
 
 ## Configuration
@@ -147,6 +211,105 @@ ring becomes S1, S2, S3
 ```
 
 Manual session switches refresh the MRU ring automatically through tmux's `after-switch-client` hook.
+
+## Usage Guide
+
+### Basic Usage
+
+After installation, use the configured keybinding to cycle through recent sessions.
+
+Default keybinding:
+
+```text
+prefix + L
+```
+
+Example workflow:
+
+1. Create or switch between several tmux sessions, such as `practice`, `server`, and `notes`.
+2. Move among them normally with `prefix + s`, `prefix + (`, `prefix + )`, or your own bindings.
+3. Press `prefix + L` to cycle through the remembered MRU session ring.
+
+### Change The Number Of Remembered Sessions
+
+Default depth is `3`:
+
+```tmux
+set -g @mru-sessions-depth '3'
+```
+
+To cycle through the last 5 sessions:
+
+```tmux
+set -g @mru-sessions-depth '5'
+```
+
+Reload tmux after changing the setting:
+
+```sh
+tmux source-file ~/.tmux.conf
+```
+
+### Change The Keybinding
+
+By default, this plugin binds uppercase `L` after your prefix:
+
+```tmux
+set -g @mru-sessions-key 'L'
+```
+
+To use `prefix + B` instead:
+
+```tmux
+set -g @mru-sessions-key 'B'
+```
+
+Reload tmux after changing the setting.
+
+### Test The Plugin
+
+You can test with three sessions:
+
+```sh
+tmux new-session -d -s practice
+tmux new-session -d -s server
+tmux new-session -d -s notes
+tmux attach -t practice
+```
+
+Inside tmux:
+
+1. Switch to `server`.
+2. Switch to `notes`.
+3. Press `prefix + L` repeatedly.
+
+Expected behavior with default depth `3`:
+
+```text
+practice -> server -> notes -> practice -> server -> notes
+```
+
+The exact starting point depends on the order in which the plugin observed your session switches.
+
+### Check The Stored MRU History
+
+The default history file is:
+
+```text
+~/.local/share/tmux/mru-sessions/history
+```
+
+It stores tmux session IDs, not session names. This is expected.
+
+### Reset The MRU History
+
+To clear the remembered session ring:
+
+```sh
+rm ~/.local/share/tmux/mru-sessions/history
+```
+
+The plugin will recreate the file as you switch sessions.
 
 ## Comparison With Native tmux
 
