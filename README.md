@@ -59,6 +59,7 @@ A tmux session ID is an internal stable identifier such as `$1` or `$2`. This pl
 - Configurable storage path.
 - Uses tmux session IDs, so renaming sessions does not break history.
 - Stale or killed sessions are automatically ignored.
+- Runs through tmux background jobs and does not create, replace, or take over panes.
 
 ## Installation
 
@@ -385,3 +386,5 @@ This plugin also binds `Alt+Shift+L` by default for faster no-prefix switching. 
 If the MRU ring contains a session that was killed, the plugin skips it automatically.
 
 If you set the depth to `5` but only have 3 sessions, the plugin cycles through the 3 existing tracked sessions.
+
+The plugin does not run commands inside your panes. It uses `run-shell -b`, tmux's background job mode, for hooks and keybindings.
