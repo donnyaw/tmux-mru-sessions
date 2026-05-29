@@ -55,6 +55,7 @@ A tmux session ID is an internal stable identifier such as `$1` or `$2`. This pl
 - True MRU session ring cycling.
 - Configurable history depth.
 - Configurable prefix keybinding.
+- Configurable no-prefix fast keybinding.
 - Configurable storage path.
 - Uses tmux session IDs, so renaming sessions does not break history.
 - Stale or killed sessions are automatically ignored.
@@ -155,6 +156,7 @@ Default configuration:
 
 ```tmux
 set -g @mru-sessions-key 'L'
+set -g @mru-sessions-root-key 'M-L'
 set -g @mru-sessions-depth '3'
 set -g @mru-sessions-storage '#{home}/.local/share/tmux/mru-sessions/history'
 ```
@@ -164,6 +166,7 @@ Configuration options:
 | Option | Default | Meaning |
 |--------|---------|---------|
 | `@mru-sessions-key` | `L` | Prefix key used to cycle MRU sessions. `L` means `prefix + L`. |
+| `@mru-sessions-root-key` | `M-L` | No-prefix fast key used to cycle MRU sessions. `M-L` means `Alt+Shift+L`. Use an empty string to disable it. Multiple keys may be separated by spaces. |
 | `@mru-sessions-depth` | `3` | Number of sessions to remember and cycle through. Minimum effective value is `2`. |
 | `@mru-sessions-storage` | `#{home}/.local/share/tmux/mru-sessions/history` | File path used to store the MRU session ring. |
 
@@ -177,6 +180,18 @@ Example: use `prefix + B` instead of `prefix + L`:
 
 ```tmux
 set -g @mru-sessions-key 'B'
+```
+
+Example: disable the no-prefix fast key:
+
+```tmux
+set -g @mru-sessions-root-key ''
+```
+
+Example: bind multiple no-prefix fast keys:
+
+```tmux
+set -g @mru-sessions-root-key 'M-L C-M-l'
 ```
 
 ## Behavior
@@ -224,6 +239,12 @@ Default keybinding:
 prefix + L
 ```
 
+Default fast keybinding without prefix:
+
+```text
+Alt+Shift+L
+```
+
 Example workflow:
 
 1. Create or switch between several tmux sessions, such as `practice`, `server`, and `notes`.
@@ -265,6 +286,36 @@ set -g @mru-sessions-key 'B'
 ```
 
 Reload tmux after changing the setting.
+
+### Change The Fast Keybinding
+
+The plugin also binds a no-prefix fast key by default:
+
+```tmux
+set -g @mru-sessions-root-key 'M-L'
+```
+
+In tmux key notation, `M-L` means `Alt+Shift+L`.
+
+To use `Ctrl+Alt+L` instead:
+
+```tmux
+set -g @mru-sessions-root-key 'C-M-l'
+```
+
+To use both:
+
+```tmux
+set -g @mru-sessions-root-key 'M-L C-M-l'
+```
+
+To disable no-prefix fast keys and keep only `prefix + L`:
+
+```tmux
+set -g @mru-sessions-root-key ''
+```
+
+`Alt+l` is intentionally not the default because many tmux configs, including common pane-navigation configs, use `M-l` for `select-pane -R`.
 
 ### Test The Plugin
 
@@ -328,6 +379,8 @@ prefix + L -> tmux-mru-sessions -> cycles through remembered MRU sessions
 ## Notes
 
 This plugin binds `prefix + L` by default. If you want to keep native tmux behavior, choose another key with `@mru-sessions-key`.
+
+This plugin also binds `Alt+Shift+L` by default for faster no-prefix switching. Disable or change it with `@mru-sessions-root-key` if it conflicts with your terminal or desktop environment.
 
 If the MRU ring contains a session that was killed, the plugin skips it automatically.
 
