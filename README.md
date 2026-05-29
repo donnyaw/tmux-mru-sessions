@@ -2,6 +2,8 @@
 
 A small TPM-compatible tmux plugin that cycles through the most recently used tmux sessions.
 
+> **Beta status:** This project is currently experimental and pending further testing. Do not use it in production tmux environments yet.
+
 By default, tmux `prefix + L` runs `switch-client -l`, which only toggles between the current session and the immediately previous session. This plugin replaces that with a configurable MRU ring so the same key can cycle through the last 3 sessions by default, or any other number you choose.
 
 ## Terms
